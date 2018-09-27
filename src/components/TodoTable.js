@@ -17,29 +17,30 @@ class TodoTable extends Component {
             .then(function (response) {
                 console.log('request data');
                 console.log(response.data);
-                _this.props.dispatch({type: 'SET_TODO_DATA', todoData: response.data});
-            }).then((data) => {
-            // this.setState({todoData: data});
-            console.log("componentDidMount 2");
-        })
-            .catch(function (error) {
+                _this.setState({
+                    todoData: response.data
+                })
+            }).catch(function (error) {
                 console.log(error);
             });
 
 
     };
     componentDidMount = () => {
-        this.fetchUserTodos()
+        this.fetchUserTodos();
     };
 
     constructor(props) {
         super(props);
+        this.state = ({
+            todoData : []
+        })
     }
 
     render() {
         return (
             <div>{this.props.todoData}
-               <BootstrapTable data={this.props.todoData}>
+               <BootstrapTable data={this.state.todoData}>
                     <TableHeaderColumn isKey dataField='name'>
                         Name
                     </TableHeaderColumn>
@@ -61,11 +62,4 @@ function mapStateToProps(state) {
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        dispatch: dispatch
-    }
-};
-
-
-export default connect(mapStateToProps,mapDispatchToProps)(TodoTable);
+export default connect(mapStateToProps)(TodoTable);

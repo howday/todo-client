@@ -16,18 +16,10 @@ class App extends Component {
 
     toggleVisibility = (source, e) => {
         console.log('Clicked from : ' + source);
-
-        let registerDisplay = 'none';
-        let loginDisplay = 'block';
-
-        if (source === 'registerLink') {
-            registerDisplay = 'block';
-            loginDisplay = 'none';
-        }
         this.setState({
-            registerVisibility: {display: registerDisplay},
-            loginVisibility: {display: loginDisplay}
-        })
+            showRegistration : source === 'registerLink',
+            showLogin : source === 'loginLink'
+        });
     };
 
     componentDidMount = () => {
@@ -43,9 +35,11 @@ class App extends Component {
             email: '',
             password: '',
             doRegister: false,
-            loginVisibility: {display: 'block'},
-            registerVisibility: {display: 'none'},
-            date: new Date()
+            // loginVisibility: {display: 'block'},
+            // registerVisibility: {display: 'block'},
+            date: new Date(),
+            showRegistration: false,
+            showLogin : true
         });
 
         this.toggleVisibility = this.toggleVisibility.bind(this);
@@ -64,12 +58,16 @@ class App extends Component {
                     </div>
                     <div className="main-login main-center">
                         {
-                            this.props.isLoggedIn === false ? <LoginForm visibility={this.state.loginVisibility}
+                            (this.props.isLoggedIn === false && this.state.showLogin) ? <LoginForm
                                                                          execute={this.toggleVisibility}/> : null
 
                         }
 
-                        <RegistrationForm visibility={this.state.registerVisibility} execute={this.toggleVisibility}/>
+                        {
+                            this.state.showRegistration === true ?
+                                <RegistrationForm  execute={this.toggleVisibility}/> : null
+                        }
+
                         {
                             this.props.isLoggedIn ? <TodoTable data={data}/> : null
                         }

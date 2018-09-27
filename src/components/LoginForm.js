@@ -64,7 +64,7 @@ class LoginForm extends React.Component {
     render() {
         let allProps = this.props;
         return (
-            <form className="form-horizontal" method="post" action="#" style={allProps.visibility}>
+            <form className="form-horizontal" method="post" action="#">
                 <div className="form-group">
                     <div className="cols-sm-10">
                         <div className="input-group">
