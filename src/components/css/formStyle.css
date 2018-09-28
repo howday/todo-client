@@ -70,3 +70,11 @@ input::-webkit-input-placeholder {
     font-size: 11px;
     text-align: center;
 }
+
+.edit {
+    cursor: pointer;
+}
+
+.delete {
+    cursor: pointer;
+}

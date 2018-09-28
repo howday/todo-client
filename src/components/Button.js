@@ -10,6 +10,7 @@ class Button extends React.Component {
         return (
             <button type={allProps.type}
                     className={allProps.className}
+                    style={{'marginBottom': '5px'}}
                     onClick={this.props.handleClick}>{this.props.buttonDisplay}</button>
         )
 
