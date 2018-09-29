@@ -21,6 +21,7 @@ class LoginForm extends React.Component {
     };
 
     handleClick = (event) => {
+        this.props.dispatch({type: 'SET_IS_LOADING_STATUS', isLoading: true});
         let _this = this;
         axios
             .post(config.BASE_URL + '/login', {

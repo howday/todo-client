@@ -73,8 +73,32 @@ input::-webkit-input-placeholder {
 
 .edit {
     cursor: pointer;
+    color: #FFC107;
+    margin-right: 10px;
 }
 
 .delete {
     cursor: pointer;
+    color: #E34724;
+    margin-right: 10px;
+}
+
+.view {
+    cursor: pointer;
+    color: #08d5ff;
+    margin-right: 10px;
+}
+
+.complete {
+    cursor: pointer;
+    color: #3b5998;
+    margin-right: 10px;
+}
+
+.loading {
+    margin: auto;
+}
+
+.completed {
+    text-decoration: line-through;
 }

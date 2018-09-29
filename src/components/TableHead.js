@@ -13,7 +13,7 @@ class TableHead extends Component {
             <thead>
             <tr>
                 {
-                    this.props.headers.map((headerName) => <th>{headerName}</th>)
+                    this.props.headers.map((headerName) => <th key={headerName}>{headerName}</th>)
                 }
             </tr>
             </thead>

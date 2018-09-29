@@ -5,12 +5,9 @@ import LoginForm from "./components/LoginForm";
 import RegistrationForm from "./components/RegistrationForm";
 import TodoTable from './components/TodoTable'
 import connect from "react-redux/es/connect/connect";
+import {ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
 
-var data = [
-    {id: 1, name: 'Gob', value: '2'},
-    {id: 2, name: 'Buster', value: '5'},
-    {id: 3, name: 'George Michael', value: '4'}
-];
 
 class App extends Component {
 
@@ -48,6 +45,7 @@ class App extends Component {
     render() {
         return (
             <div className="container">
+                <ToastContainer/>
                 <div className="row main">
                     <div className="panel-heading">
                         <div className="panel-title text-center">
@@ -69,7 +67,7 @@ class App extends Component {
                         }
 
                         {
-                            this.props.isLoggedIn ? <TodoTable data={data}/> : null
+                            this.props.isLoggedIn ? <TodoTable/> : null
                         }
                     </div>
                 </div>
@@ -85,7 +83,8 @@ class App extends Component {
 function mapStateToProps(state) {
     return {
         isLoggedIn: state.isLoggedIn,
-        todoData: state.todoData
+        todoData: state.todoData,
+        isLoading: state.isLoading
 
     }
 }
