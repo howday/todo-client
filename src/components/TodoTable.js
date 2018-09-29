@@ -21,7 +21,6 @@ class TodoTable extends Component {
                     headers: {'x-access-token': this.props.accessToken}
                 })
             .then(function (response) {
-                console.log('request data');
                 console.log(response.data);
                 // setTimeout(function () {
                 _this.setState({
@@ -80,7 +79,6 @@ class TodoTable extends Component {
     };
 
     handleTaskEdit = () => {
-        console.log('token: ' + this.props.accessToken);
         let self = this;
         axios
             .put(config.BASE_URL + '/tasks/' + this.state.taskId, {
@@ -104,7 +102,6 @@ class TodoTable extends Component {
     };
 
     handleEditCallback = (task) => {
-        console.log(task);
         this.state.taskId = task._id;
         this.state.taskName = task.name;
         this.state.taskDescription = task.description;

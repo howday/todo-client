@@ -23,7 +23,6 @@ class TableBody extends Component {
                 toast.error(<div>Task '{task.name}' is successfully deleted.</div>);
             })
             .catch(function (error) {
-                console.log(error);
             });
 
 
@@ -34,7 +33,6 @@ class TableBody extends Component {
     handleChangeStatusClick = (task) => {
         let self = this;
         let taskStatus = (task.status[0]) === 'completed' ? 'pending' : 'completed';
-        console.log(taskStatus);
         axios
             .put(config.BASE_URL + '/tasks/' + task._id, {
                 status: taskStatus
@@ -42,7 +40,6 @@ class TableBody extends Component {
                 headers: {'x-access-token': this.props.accessToken}
             })
             .then(function (response) {
-                console.log(response);
                 self.props.changeStatusCallback();
                 // toast.success(<div>Task is successfully marked as {taskStatus}.</div>);
             })
@@ -72,7 +69,7 @@ class TableBody extends Component {
                 this.props.data.map((listValue, index) => {
                     return (
                         <tr key={index} id={"row" + index}>
-                            <td>{index + 1}{listValue.status[0]}</td>
+                            <td>{index + 1}</td>
                             <td className={listValue.status}>{listValue.name}</td>
                             <td className={listValue.status}>{listValue.description}</td>
                             <td className={listValue.status}>{listValue.last_updated}</td>

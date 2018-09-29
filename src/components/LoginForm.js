@@ -36,7 +36,6 @@ class LoginForm extends React.Component {
                         this.props.dispatch({type: 'SET_USER_TOKEN', accessToken: response.data.token});
                         this.props.dispatch({type: 'SET_LOGGED_IN_STATUS', isLoggedIn: true});
                         localStorage.setItem("loggedIn", true);
-                        console.log(response);
                     })
                 }
 

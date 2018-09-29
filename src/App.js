@@ -12,7 +12,6 @@ import 'react-toastify/dist/ReactToastify.min.css';
 class App extends Component {
 
     toggleVisibility = (source, e) => {
-        console.log('Clicked from : ' + source);
         this.setState({
             showRegistration : source === 'registerLink',
             showLogin : source === 'loginLink'
