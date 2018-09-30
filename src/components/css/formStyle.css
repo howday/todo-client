@@ -114,3 +114,34 @@ body {
     padding: 10px;
     background-repeat: repeat-x;
 }
+
+.field-message-tooltip {
+    /*    background-color: #fcdec2;
+        color: #B71234;
+        background-position: 5px 5px;
+        padding: 7px 5px 5px 30px;
+        width: auto !important;
+        position: relative;
+        margin-top: 6px;
+        border-radius: 4px;*/
+
+    width: auto !important;
+    background-color: #fcdec2;
+    color: #B71234;
+    /*text-align: center;*/
+    border-radius: 6px;
+    padding: 7px 5px 5px 30px;
+    position: relative;
+    margin-top: 6px;
+}
+
+.field-message-tooltip::after {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 5%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent #fcdec2 transparent;
+}

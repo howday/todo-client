@@ -5,27 +5,40 @@ import ActionLink from "./ActionLink";
 import axios from "axios";
 import config from '../config'
 import {connect} from 'react-redux';
+import validator from '../Validator'
 
 class LoginForm extends React.Component {
 
     handleEmailChange = (event) => {
+        let email = event.target.value;
+        this.state.emailValidation = validator.validateEmail(email);
         this.setState({
-            email: event.target.value
+            email: email
         });
     };
 
     handlePasswordChange = (event) => {
+        let password = event.target.value;
         this.setState({
-            password: event.target.value
+            password: password
         });
     };
 
     handleClick = (event) => {
+        let email = this.state.email;
+        let password = this.state.password;
+        this.state.emailValidation = validator.validateEmail(email);
+        if (!this.state.emailValidation.valid) {
+            this.setState({
+                email: email
+            });
+            return;
+        }
         let _this = this;
         axios
             .post(config.BASE_URL + '/login', {
-                email: this.state.email,
-                password: this.state.password
+                email: email,
+                password: password
             })
             .then(function (response) {
                 if (response.data !== null && response.data.auth === true) {
@@ -53,7 +66,9 @@ class LoginForm extends React.Component {
         super(props);
         this.state = ({
             email: 'sklamgade47@gmail.com',
-            password: 'password'
+            password: 'password',
+            emailValidation: {valid: true, message: ''},
+            passwordValidation: {valid: true, message: ''}
         });
 
         this.handleEmailChange = this.handleEmailChange.bind(this);
@@ -68,7 +83,7 @@ class LoginForm extends React.Component {
                 <form className="form-horizontal" method="post" action="#">
                     <div className="form-group">
                         <div className="cols-sm-10">
-                            <div className="input-group">
+                            <div className={this.state.emailValidation.valid ? "input-group" : "input-group has-error"}>
                                         <span className="input-group-addon"><i className="fa fa-envelope fa"
                                                                                aria-hidden="true"></i></span>
                                 <Input type="text" className="form-control has-error" name="email" id="email"
@@ -76,11 +91,14 @@ class LoginForm extends React.Component {
                                        defaultValue={this.state.email}
                                        handleTextChange={this.handleEmailChange}/>
                             </div>
+                            {this.state.emailValidation.valid ? null :
+                                <p className="field-message field-message-tooltip">{this.state.emailValidation.message}</p>}
                         </div>
                     </div>
                     <div className="form-group">
                         <div className="cols-sm-10">
-                            <div className="input-group">
+                            <div
+                                className={this.state.passwordValidation.valid ? "input-group" : "input-group has-error"}>
                                         <span className="input-group-addon"><i className="fa fa-lock fa-lg"
                                                                                aria-hidden="true"></i></span>
                                 <Input type="password" className="form-control" name="password" id="password"
@@ -88,6 +106,8 @@ class LoginForm extends React.Component {
                                        defaultValue={this.state.password}
                                        handleTextChange={this.handlePasswordChange}/>
                             </div>
+                            {this.state.passwordValidation.valid ? null :
+                                <p className="field-message field-message-tooltip">{this.state.passwordValidation.message}</p>}
                         </div>
                     </div>
 

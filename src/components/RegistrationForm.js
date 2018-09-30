@@ -5,40 +5,73 @@ import axios from "axios";
 import ActionLink from "./ActionLink";
 import {connect} from 'react-redux';
 import config from '../config'
+import validator from "../Validator";
 
 class RegistrationForm extends React.Component {
 
     handleNameChange = (event) => {
+        let name = event.target.value;
+        this.state.nameValidation = validator.validateName(name);
         this.setState({
-            name: event.target.value
+            name: name,
+            initialFormState: false
         });
     };
 
     handleEmailChange = (event) => {
+        let email = event.target.value;
+        this.state.emailValidation = validator.validateEmail(email);
         this.setState({
-            email: event.target.value
+            email: email,
+            initialFormState: false
         });
     };
 
     handlePasswordChange = (event) => {
+        let password = event.target.value;
+        this.state.passwordValidation = validator.validatePassword(password);
         this.setState({
-            password: event.target.value
+            password: event.target.value,
+            initialFormState: false
         });
     };
 
-    handlePassword2Change = (event) => {
+    handleConfirmPasswordChange = (event) => {
+        let password = this.state.password;
+        let confirmPassword = event.target.value;
+        this.state.confirmPasswordValidation = validator.validateConfirmPassword(password, confirmPassword);
         this.setState({
-            password2: event.target.value
+            confirmPassword: confirmPassword
         });
     };
+
 
     handleClick = (event) => {
+        if (this.state.initialFormState) {
+            event.preventDefault();
+            this.setState({
+                nameValidation: {valid: false, message: 'This is required field.'},
+                emailValidation: {valid: false, message: 'This is required field.'},
+                passwordValidation: {valid: false, message: 'This is required field.'},
+                confirmPasswordValidation: {valid: false, message: 'This is required field.'}
+
+            })
+            return;
+        }
+
+        let name = this.state.name;
+        let email = this.state.email;
+        let password = this.state.password;
+
+        alert('valid');
+        return
+
         let self = this;
         axios
             .post(config.BASE_URL + '/user', {
-                name: this.state.name,
-                email: this.state.email,
-                password: this.state.password
+                name: name,
+                email: email,
+                password: password
             })
             .then(function (response) {
                 self.doPostRequestTask(response)
@@ -67,18 +100,23 @@ class RegistrationForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = ({
-            name: 'Suresh',
-            email: 'suresh.lamgade47@gmail.com',
-            password: 'password',
-            password2: '',
+            name: '',
+            email: '',
+            password: '',
+            confirmPassword: '',
             isExecuted: false,
-            response: {}
+            response: {},
+            nameValidation: {valid: true, message: ''},
+            emailValidation: {valid: true, message: ''},
+            passwordValidation: {valid: true, message: ''},
+            confirmPasswordValidation: {valid: true, message: ''},
+            initialFormState: true
         });
 
         this.handleNameChange = this.handleNameChange.bind(this);
         this.handleEmailChange = this.handleEmailChange.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
-        this.handlePassword2Change = this.handlePassword2Change.bind(this);
+        this.handleConfirmPasswordChange = this.handleConfirmPasswordChange.bind(this);
         this.handleClick = this.handleClick.bind(this);
     }
 
@@ -89,14 +127,14 @@ class RegistrationForm extends React.Component {
                 {this.state.isExecuted ?
                     <div>
                         <h2 className="text-center">{this.state.response.message}</h2>
-                        <ActionLink  execute={this.delegateClickAction} displayName="Go to login !!" id="loginLink"/>
+                        <ActionLink execute={this.delegateClickAction} displayName="Go to login !!" id="loginLink"/>
                     </div>
                     :
                     <form className="form-horizontal" method="post" action="#">
-                        {this.props.accessToken}
                         <div className="form-group">
                             <div className="cols-sm-10">
-                                <div className="input-group">
+                                <div
+                                    className={this.state.nameValidation.valid ? "input-group" : "input-group has-error"}>
                                         <span className="input-group-addon"><i className="fa fa-user fa"
                                                                                aria-hidden="true"></i></span>
                                     <Input type="text" className="form-control" name="name" id="name"
@@ -104,12 +142,15 @@ class RegistrationForm extends React.Component {
                                            defaultValue={this.state.name}
                                            handleTextChange={this.handleNameChange}/>
                                 </div>
+                                {this.state.nameValidation.valid ? null :
+                                    <p className="field-message field-message-tooltip">{this.state.nameValidation.message}</p>}
                             </div>
                         </div>
 
                         <div className="form-group">
                             <div className="cols-sm-10">
-                                <div className="input-group">
+                                <div
+                                    className={this.state.emailValidation.valid ? "input-group" : "input-group has-error"}>
                                         <span className="input-group-addon"><i className="fa fa-envelope fa"
                                                                                aria-hidden="true"></i></span>
                                     <Input type="text" className="form-control" name="email" id="email"
@@ -117,11 +158,14 @@ class RegistrationForm extends React.Component {
                                            defaultValue={this.state.email}
                                            handleTextChange={this.handleEmailChange}/>
                                 </div>
+                                {this.state.emailValidation.valid ? null :
+                                    <p className="field-message field-message-tooltip">{this.state.emailValidation.message}</p>}
                             </div>
                         </div>
                         <div className="form-group">
                             <div className="cols-sm-10">
-                                <div className="input-group">
+                                <div
+                                    className={this.state.passwordValidation.valid ? "input-group" : "input-group has-error"}>
                                         <span className="input-group-addon"><i className="fa fa-lock fa-lg"
                                                                                aria-hidden="true"></i></span>
                                     <Input type="password" className="form-control" name="password" id="password"
@@ -129,18 +173,23 @@ class RegistrationForm extends React.Component {
                                            defaultValue={this.state.password}
                                            handleTextChange={this.handlePasswordChange}/>
                                 </div>
+                                {this.state.passwordValidation.valid ? null :
+                                    <p className="field-message field-message-tooltip">{this.state.passwordValidation.message}</p>}
                             </div>
                         </div>
 
                         <div className="form-group">
                             <div className="cols-sm-10">
-                                <div className="input-group">
+                                <div
+                                    className={this.state.confirmPasswordValidation.valid ? "input-group" : "input-group has-error"}>
                                         <span className="input-group-addon"><i className="fa fa-lock fa-lg"
                                                                                aria-hidden="true"></i></span>
                                     <Input type="password" className="form-control" name="confirm" id="confirm"
                                            placeholder="Confirm your Password"
-                                           handleTextChange={this.handlePassword2Change}/>
+                                           handleTextChange={this.handleConfirmPasswordChange}/>
                                 </div>
+                                {this.state.confirmPasswordValidation.valid ? null :
+                                    <p className="field-message field-message-tooltip">{this.state.confirmPasswordValidation.message}</p>}
                             </div>
                         </div>
 
