@@ -13,10 +13,6 @@ body, html{
     font-family: 'Oxygen', sans-serif;
 }
 
-.main{
-    margin-top: 70px;
-}
-
 h1.title {
     font-size: 40px;
     font-family: 'Chilanka', cursive;
@@ -101,4 +97,20 @@ input::-webkit-input-placeholder {
 
 .completed {
     text-decoration: line-through;
+}
+
+.internal-container {
+    max-width: 30%;
+    margin: auto;
+}
+
+.main-login, .main-center {
+    border-radius: 15px;
+}
+
+body {
+    background: url("../css/background.jpg");
+    background-size: cover;
+    padding: 10px;
+    background-repeat: repeat-x;
 }

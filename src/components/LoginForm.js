@@ -21,7 +21,6 @@ class LoginForm extends React.Component {
     };
 
     handleClick = (event) => {
-        this.props.dispatch({type: 'SET_IS_LOADING_STATUS', isLoading: true});
         let _this = this;
         axios
             .post(config.BASE_URL + '/login', {
@@ -65,43 +64,45 @@ class LoginForm extends React.Component {
     render() {
         let allProps = this.props;
         return (
-            <form className="form-horizontal" method="post" action="#">
-                <div className="form-group">
-                    <div className="cols-sm-10">
-                        <div className="input-group">
+            <div className="internal-container">
+                <form className="form-horizontal" method="post" action="#">
+                    <div className="form-group">
+                        <div className="cols-sm-10">
+                            <div className="input-group">
                                         <span className="input-group-addon"><i className="fa fa-envelope fa"
                                                                                aria-hidden="true"></i></span>
-                            <Input type="text" className="form-control" name="email" id="email"
-                                   placeholder="Enter your Email"
-                                   defaultValue={this.state.email}
-                                   handleTextChange={this.handleEmailChange}/>
+                                <Input type="text" className="form-control has-error" name="email" id="email"
+                                       placeholder="Enter your Email"
+                                       defaultValue={this.state.email}
+                                       handleTextChange={this.handleEmailChange}/>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div className="form-group">
-                    <div className="cols-sm-10">
-                        <div className="input-group">
+                    <div className="form-group">
+                        <div className="cols-sm-10">
+                            <div className="input-group">
                                         <span className="input-group-addon"><i className="fa fa-lock fa-lg"
                                                                                aria-hidden="true"></i></span>
-                            <Input type="password" className="form-control" name="password" id="password"
-                                   placeholder="Enter your Password"
-                                   defaultValue={this.state.password}
-                                   handleTextChange={this.handlePasswordChange}/>
+                                <Input type="password" className="form-control" name="password" id="password"
+                                       placeholder="Enter your Password"
+                                       defaultValue={this.state.password}
+                                       handleTextChange={this.handlePasswordChange}/>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div className="form-group ">
-                    <Button type="button"
-                            className="btn btn-primary btn-sm btn-block login-button"
-                            handleClick={this.handleClick}
-                            buttonDisplay="Login"/>
-                </div>
-                <div className="login-register">
-                    <ActionLink id="registerLink" displayName="New user? Please sign up"
-                                execute={this.delegateClickAction}/>
-                </div>
-            </form>
+                    <div className="form-group ">
+                        <Button type="button"
+                                className="btn btn-primary btn-sm btn-block login-button"
+                                handleClick={this.handleClick}
+                                buttonDisplay="Login"/>
+                    </div>
+                    <div className="login-register">
+                        <ActionLink id="registerLink" displayName="New user? Please sign up"
+                                    execute={this.delegateClickAction}/>
+                    </div>
+                </form>
+            </div>
         )
     }
 }

@@ -85,7 +85,7 @@ class RegistrationForm extends React.Component {
     render() {
         let allProps = this.props;
         return (
-            <div>
+            <div className="internal-container">
                 {this.state.isExecuted ?
                     <div>
                         <h2 className="text-center">{this.state.response.message}</h2>

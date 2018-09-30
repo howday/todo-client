@@ -45,6 +45,7 @@ class TableBody extends Component {
             })
             .catch(function (error) {
                 console.log(error);
+                
             });
     };
 

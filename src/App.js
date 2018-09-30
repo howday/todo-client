@@ -25,20 +25,24 @@ class App extends Component {
         );
     };
 
+    closeModal = () => {
+        this.setState({show: false});
+    };
+
     constructor(props) {
         super(props);
         this.state = ({
             email: '',
             password: '',
             doRegister: false,
-            // loginVisibility: {display: 'block'},
-            // registerVisibility: {display: 'block'},
             date: new Date(),
             showRegistration: false,
-            showLogin : true
+            showLogin: true,
+            show: true
         });
 
         this.toggleVisibility = this.toggleVisibility.bind(this);
+        this.closeModal = this.closeModal.bind(this);
     }
 
     render() {
@@ -56,13 +60,13 @@ class App extends Component {
                     <div className="main-login main-center">
                         {
                             (this.props.isLoggedIn === false && this.state.showLogin) ? <LoginForm
-                                                                         execute={this.toggleVisibility}/> : null
+                                execute={this.toggleVisibility}/> : null
 
                         }
 
                         {
                             this.state.showRegistration === true ?
-                                <RegistrationForm  execute={this.toggleVisibility}/> : null
+                                <RegistrationForm execute={this.toggleVisibility}/> : null
                         }
 
                         {
