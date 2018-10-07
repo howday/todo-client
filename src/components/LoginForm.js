@@ -2,6 +2,7 @@ import React from 'react'
 import Input from "./Input";
 import Button from "./Button";
 import ActionLink from "./ActionLink";
+import ForgotPasswordModal from "./ForgotPasswordModal";
 import axios from "axios";
 import config from '../config'
 import {connect} from 'react-redux';
@@ -13,14 +14,16 @@ class LoginForm extends React.Component {
         let email = event.target.value;
         this.state.emailValidation = validator.validateEmail(email);
         this.setState({
-            email: email
+            email: email,
+            showForgotPasswordModal: false
         });
     };
 
     handlePasswordChange = (event) => {
         let password = event.target.value;
         this.setState({
-            password: password
+            password: password,
+            showForgotPasswordModal: false
         });
     };
 
@@ -62,17 +65,26 @@ class LoginForm extends React.Component {
         this.props.execute(source);
     };
 
+    handleForgotPasswordLinkClick = () => {
+        this.setState({
+            showForgotPasswordModal: true
+        });
+
+    };
+
     constructor(props) {
         super(props);
         this.state = ({
             email: 'sklamgade47@gmail.com',
             password: 'password',
             emailValidation: {valid: true, message: ''},
-            passwordValidation: {valid: true, message: ''}
+            passwordValidation: {valid: true, message: ''},
+            showForgotPasswordModal:false
         });
 
         this.handleEmailChange = this.handleEmailChange.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
+        this.handleForgotPasswordLinkClick = this.handleForgotPasswordLinkClick.bind(this);
 
     }
 
@@ -120,6 +132,12 @@ class LoginForm extends React.Component {
                     <div className="login-register">
                         <ActionLink id="registerLink" displayName="New user? Please sign up"
                                     execute={this.delegateClickAction}/>
+                        <hr/>
+                        <a href="#"
+                           id="forgotPassword"
+                           onClick={this.handleForgotPasswordLinkClick}>Forgot password</a>
+
+                        <ForgotPasswordModal show={this.state.showForgotPasswordModal}/>
                     </div>
                 </form>
             </div>

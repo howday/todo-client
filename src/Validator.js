@@ -40,6 +40,14 @@ const validator = {
         } else {
             return {valid: false, message: 'Password does not match'};
         }
+    },
+    validateResetCode: function (password) {
+        if (password.length === 0) {
+            return {valid: false, message: 'This is required field.'};
+        } else if (password.length >= 6)
+            return {valid: true, message: ''};
+        else
+            return {valid: false, message: 'Reset code should be of 6 characters.'}
     }
 }
 

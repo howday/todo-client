@@ -55,7 +55,7 @@ class RegistrationForm extends React.Component {
                 passwordValidation: {valid: false, message: 'This is required field.'},
                 confirmPasswordValidation: {valid: false, message: 'This is required field.'}
 
-            })
+            });
             return;
         }
 
@@ -64,7 +64,7 @@ class RegistrationForm extends React.Component {
         let password = this.state.password;
 
         alert('valid');
-        return
+        return;
 
         let self = this;
         axios
