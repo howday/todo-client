@@ -15,24 +15,24 @@ class ForgotPasswordModal extends Component {
 
     handleEmailChange = (event) => {
         let email = event.target.value;
-        this.state.emailValidation = validator.validateEmail(email);
         this.setState({
             email: email,
+            emailValidation : validator.validateEmail(email),
             initialFormState: false
         });
     };
     handleCodeChange = (event) => {
         let code = event.target.value;
-        this.state.codeValidation = validator.validateResetCode(code);
         this.setState({
-            code: event.target.value,
+            codeValidation: validator.validateResetCode(code),
+            code: code,
             initialFormState: false
         });
     };
     handlePasswordChange = (event) => {
         let password = event.target.value;
-        this.state.passwordValidation = validator.validatePassword(password);
         this.setState({
+            passwordValidation: validator.validatePassword(password),
             password: event.target.value,
             initialFormState: false
         });
@@ -40,8 +40,8 @@ class ForgotPasswordModal extends Component {
     handleConfirmPasswordChange = (event) => {
         let password = this.state.password;
         let confirmPassword = event.target.value;
-        this.state.confirmPasswordValidation = validator.validateConfirmPassword(password, confirmPassword);
         this.setState({
+            confirmPasswordValidation: validator.validateConfirmPassword(password, confirmPassword),
             confirmPassword: confirmPassword,
             initialFormState: false
         });

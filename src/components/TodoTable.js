@@ -4,7 +4,7 @@ import connect from "react-redux/es/connect/connect";
 import axios from "axios";
 import config from "../config";
 import Button from "./Button";
-import {Modal, Popover, Table, Tooltip} from 'react-bootstrap'
+import {Modal, Table} from 'react-bootstrap'
 import Input from "./Input";
 import TableHead from "./TableHead";
 import TableBody from "./TableBody";
@@ -43,8 +43,10 @@ class TodoTable extends Component {
     };
 
     showAddEditModal = (action) => {
-        this.state.isEdit = action === 'edit';
-        this.setState({show: true});
+        this.setState({
+            isEdit: action === 'edit',
+            show: true
+        });
     };
 
     handleTaskNameChange = (event) => {
@@ -141,12 +143,13 @@ class TodoTable extends Component {
 
     render() {
 
-        const popover = (
+        /*const popover = (
             <Popover id="modal-popover" title="popover">
                 very popover. such engagement
             </Popover>
         );
         const tooltip = <Tooltip id="modal-tooltip">wow.</Tooltip>;
+        */
 
         return (
             <div className="container-fluid">

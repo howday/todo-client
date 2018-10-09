@@ -1,7 +1,6 @@
 import React from 'react'
 import Input from "./Input";
 import Button from "./Button";
-import ActionLink from "./ActionLink";
 import ForgotPasswordModal from "./ForgotPasswordModal";
 import axios from "axios";
 import config from '../config'
@@ -12,8 +11,8 @@ class LoginForm extends React.Component {
 
     handleEmailChange = (event) => {
         let email = event.target.value;
-        this.state.emailValidation = validator.validateEmail(email);
         this.setState({
+            emailValidation:validator.validateEmail(email),
             email: email,
             showForgotPasswordModal: false
         });
@@ -30,9 +29,9 @@ class LoginForm extends React.Component {
     handleClick = (event) => {
         let email = this.state.email;
         let password = this.state.password;
-        this.state.emailValidation = validator.validateEmail(email);
         if (!this.state.emailValidation.valid) {
             this.setState({
+                emailValidation: validator.validateEmail(email),
                 email: email
             });
             return;
@@ -72,6 +71,10 @@ class LoginForm extends React.Component {
 
     };
 
+    showRegistration = (event) =>{
+        this.props.execute(event.target.id)
+    };
+
     constructor(props) {
         super(props);
         this.state = ({
@@ -85,11 +88,11 @@ class LoginForm extends React.Component {
         this.handleEmailChange = this.handleEmailChange.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
         this.handleForgotPasswordLinkClick = this.handleForgotPasswordLinkClick.bind(this);
+        this.showRegistration = this.showRegistration.bind(this);
 
     }
 
     render() {
-        let allProps = this.props;
         return (
             <div className="internal-container">
                 <form className="form-horizontal" method="post" action="#">
@@ -130,13 +133,15 @@ class LoginForm extends React.Component {
                                 buttonDisplay="Login"/>
                     </div>
                     <div className="login-register">
-                        <ActionLink id="registerLink" displayName="New user? Please sign up"
-                                    execute={this.delegateClickAction}/>
-                        <hr/>
-                        <a href="#"
-                           id="forgotPassword"
-                           onClick={this.handleForgotPasswordLinkClick}>Forgot password</a>
-
+                        <Button type="button"
+                                className="btn btn-link"
+                                id="registerLink"
+                                handleClick={this.showRegistration}
+                                buttonDisplay="New user? Please sign up"/>
+                        <Button type="button"
+                                className="btn btn-link"
+                                handleClick={this.handleForgotPasswordLinkClick}
+                                buttonDisplay="Forgot password?"/>
                         <ForgotPasswordModal show={this.state.showForgotPasswordModal}/>
                     </div>
                 </form>

@@ -2,7 +2,6 @@ import React from 'react'
 import Input from "./Input";
 import Button from "./Button";
 import axios from "axios";
-import ActionLink from "./ActionLink";
 import {connect} from 'react-redux';
 import config from '../config'
 import validator from "../Validator";
@@ -11,8 +10,8 @@ class RegistrationForm extends React.Component {
 
     handleNameChange = (event) => {
         let name = event.target.value;
-        this.state.nameValidation = validator.validateName(name);
         this.setState({
+            nameValidation:validator.validateName(name),
             name: name,
             initialFormState: false
         });
@@ -20,8 +19,8 @@ class RegistrationForm extends React.Component {
 
     handleEmailChange = (event) => {
         let email = event.target.value;
-        this.state.emailValidation = validator.validateEmail(email);
         this.setState({
+            emailValidation: validator.validateEmail(email),
             email: email,
             initialFormState: false
         });
@@ -29,8 +28,8 @@ class RegistrationForm extends React.Component {
 
     handlePasswordChange = (event) => {
         let password = event.target.value;
-        this.state.passwordValidation = validator.validatePassword(password);
         this.setState({
+            passwordValidation:validator.validatePassword(password),
             password: event.target.value,
             initialFormState: false
         });
@@ -39,9 +38,10 @@ class RegistrationForm extends React.Component {
     handleConfirmPasswordChange = (event) => {
         let password = this.state.password;
         let confirmPassword = event.target.value;
-        this.state.confirmPasswordValidation = validator.validateConfirmPassword(password, confirmPassword);
         this.setState({
-            confirmPassword: confirmPassword
+            confirmPasswordValidation: validator.validateConfirmPassword(password, confirmPassword),
+            confirmPassword: confirmPassword,
+            initialFormState: false
         });
     };
 
@@ -62,9 +62,23 @@ class RegistrationForm extends React.Component {
         let name = this.state.name;
         let email = this.state.email;
         let password = this.state.password;
+        let confirmPassword = this.state.confirmPassword;
 
-        alert('valid');
-        return;
+        this.setState({
+            nameValidation: validator.validateName(name),
+            emailValidation: validator.validateEmail(email),
+            passwordValidation: validator.validatePassword(password),
+            confirmPasswordValidation: validator.validateConfirmPassword(password,confirmPassword)
+
+        });
+
+        if(!(this.state.nameValidation.valid &&
+            this.state.emailValidation.valid &&
+            this.state.passwordValidation.valid &&
+            this.state.confirmPasswordValidation.valid)){
+            event.preventDefault();
+            return;
+        }
 
         let self = this;
         axios
@@ -93,8 +107,8 @@ class RegistrationForm extends React.Component {
         });
     };
 
-    delegateClickAction = (source, event) => {
-        this.props.execute(source);
+    showLogin = (event) => {
+        this.props.execute(event.target.id);
     };
 
     constructor(props) {
@@ -118,16 +132,20 @@ class RegistrationForm extends React.Component {
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
         this.handleConfirmPasswordChange = this.handleConfirmPasswordChange.bind(this);
         this.handleClick = this.handleClick.bind(this);
+        this.showLogin = this.showLogin.bind(this);
     }
 
     render() {
-        let allProps = this.props;
         return (
             <div className="internal-container">
                 {this.state.isExecuted ?
                     <div>
                         <h2 className="text-center">{this.state.response.message}</h2>
-                        <ActionLink execute={this.delegateClickAction} displayName="Go to login !!" id="loginLink"/>
+                        <Button type="button"
+                                className="btn btn-link"
+                                id="loginLink"
+                                handleClick={this.showLogin}
+                                buttonDisplay="Go to login"/>
                     </div>
                     :
                     <form className="form-horizontal" method="post" action="#">
@@ -200,7 +218,11 @@ class RegistrationForm extends React.Component {
                                     buttonDisplay="Register"/>
                         </div>
                         <div className="login-register">
-                            <ActionLink id="loginLink" displayName="Login" execute={this.delegateClickAction}/>
+                            <Button type="button"
+                                    className="btn btn-link"
+                                    id="loginLink"
+                                    handleClick={this.showLogin}
+                                    buttonDisplay="Go to login"/>
                         </div>
                     </form>
                 }
